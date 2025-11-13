@@ -4,7 +4,8 @@ class_name Player
 var start_moving : bool = false
 var can_jump : bool = false
 @export var coyote_timer : Timer
-
+var vec2 = Vector2i(100, 200)
+var vec1 = Vector2i(0, 0)
 func _ready() -> void:
 	start_moving = true
 

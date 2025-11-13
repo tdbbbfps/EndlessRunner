@@ -285,6 +285,8 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("coyote_timer", "fsm")]
+collision_layer = 8
+collision_mask = 7
 script = ExtResource("1_508ok")
 coyote_timer = NodePath("CoyoteTimer")
 fsm = NodePath("FSM")
