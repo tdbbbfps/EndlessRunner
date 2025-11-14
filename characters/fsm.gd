@@ -19,4 +19,3 @@ func change_state(new_state : String) -> void:
 	current_state = states[new_state]
 	current_state.enter()
 	%Debug.text = new_state
-	print("Change state to %s" %new_state)

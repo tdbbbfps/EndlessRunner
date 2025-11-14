@@ -22,6 +22,10 @@ func _physics_process(delta: float) -> void:
 		# Start sneaking.
 		if Input.is_action_pressed("Sneak") and fsm.current_state != PlayerSneak:
 			fsm.change_state("sneak")
+		if Input.is_action_just_pressed("Kick") and fsm.current_state != PlayerKick:
+			fsm.change_state("kick")
+		if Input.is_action_just_pressed("FireBreath") and fsm.current_state != PlayerFireBreath:
+			fsm.change_state("firebreath")
 	move_and_slide()
 	handling_jump()
 	apply_gravity(delta)

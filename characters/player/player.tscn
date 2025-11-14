@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://dnbc40or1rcg0"]
+[gd_scene load_steps=48 format=3 uid="uid://dnbc40or1rcg0"]
 
 [ext_resource type="Script" uid="uid://dom0o3lfxn837" path="res://characters/player/player.gd" id="1_508ok"]
 [ext_resource type="Texture2D" uid="uid://dbf2iejdhybkj" path="res://assets/images/dino_character/aseprite/DinoSprites.png" id="2_rpf03"]
@@ -12,6 +12,8 @@
 [ext_resource type="Script" uid="uid://cw0hlucmt0t6x" path="res://characters/player/fsm/hurt.gd" id="11_3t07l"]
 [ext_resource type="Script" uid="uid://3e3oduodyyi4" path="res://characters/player/fsm/kick.gd" id="11_on558"]
 [ext_resource type="Script" uid="uid://cwqf07u7d54la" path="res://characters/player/fsm/die.gd" id="12_on558"]
+[ext_resource type="PackedScene" uid="uid://blah1oo8xsx2t" path="res://characters/player/vfx/fire_breath.tscn" id="13_gqopd"]
+[ext_resource type="Script" uid="uid://bps25nmmqo2gp" path="res://characters/player/fsm/fire_breath.gd" id="13_icpky"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jgd8i"]
 atlas = ExtResource("2_rpf03")
@@ -61,8 +63,8 @@ region = Rect2(600, 0, 24, 24)
 atlas = ExtResource("2_xxgcw")
 region = Rect2(264, 0, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3t07l"]
-atlas = ExtResource("2_xxgcw")
+[sub_resource type="AtlasTexture" id="AtlasTexture_e0pgg"]
+atlas = ExtResource("2_rpf03")
 region = Rect2(288, 0, 24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_on558"]
@@ -177,7 +179,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_x5dtk")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3t07l")
+"texture": SubResource("AtlasTexture_e0pgg")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_on558")
@@ -326,6 +328,9 @@ _data = {
 &"Sneak": SubResource("Animation_idpv6")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_icpky"]
+size = Vector2(32, 16)
+
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("coyote_timer", "fsm")]
 collision_layer = 8
 collision_mask = 15
@@ -336,7 +341,7 @@ fsm = NodePath("FSM")
 [node name="Anisprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_fpo3a")
-animation = &"hurt"
+animation = &"kick"
 frame = 2
 frame_progress = 1.0
 
@@ -348,6 +353,14 @@ libraries = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -6)
 shape = SubResource("CapsuleShape2D_idpv6")
+
+[node name="KickHurtBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KickHurtBox"]
+position = Vector2(16, -8)
+shape = SubResource("RectangleShape2D_icpky")
 
 [node name="FSM" type="Node2D" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_exd8k")
@@ -407,6 +420,10 @@ anisprite = NodePath("../../Anisprite")
 aniplayer = NodePath("../../AnimationPlayer")
 metadata/_custom_type_script = "uid://dc70vlripf0j8"
 
+[node name="FireBreath" type="Node2D" parent="FSM"]
+script = ExtResource("13_icpky")
+metadata/_custom_type_script = "uid://dc70vlripf0j8"
+
 [node name="CoyoteTimer" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
@@ -417,5 +434,10 @@ offset_left = -20.0
 offset_right = 20.0
 offset_bottom = 23.0
 text = "State"
+
+[node name="VFX" type="Node2D" parent="."]
+
+[node name="FireBreath" parent="VFX" instance=ExtResource("13_gqopd")]
+position = Vector2(5, -11)
 
 [connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]

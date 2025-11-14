@@ -17,8 +17,14 @@ var grass_deco_coords : int = 4: # grass deco tile from (4,2) to (6,2)
 		else:
 			grass_deco_coords = 4
 var dirt_coords : Array = [Vector2i(1, 1), Vector2i(9, 0), Vector2i(8, 1), Vector2i(9, 1)]
+	
+@export var resource_preloader : ResourcePreloader
+@export var obstacle_pivot : Node
+var obstacle_list : Array
 
 func _ready() -> void:
+	# 獲取所有障礙物名稱
+	obstacle_list = resource_preloader.get_resource_list()
 	# 初始化生成下個區塊的檢查位置(當前區塊中點)
 	generate_next_chunk_pos = chunk_size.x * 0.5 * tile_size
 	# 初始化移除上個區塊的檢查位置(下個區塊中點)
@@ -60,17 +66,14 @@ func generate_meadow_chunk():
 	chunks.append(chunk)
 	start_pos.x += chunk_size.x
 	end_pos.x += chunk_size.x
-	
-@export var resource_preloader : ResourcePreloader
-@export var obstacle_pivot : Node
 
 func generate_obstacle():
 	var y = -(chunk_size.y - 1)
 	for x in range(start_pos.x + chunk_size.x / 4, end_pos.x, chunk_size.x / 4):
 		var obstacle_pos : Vector2i = ground_layer.map_to_local(Vector2i(x, y))
-		var new_obstacle = resource_preloader.get_resource("spike").instantiate()
-		new_obstacle.global_position = obstacle_pos
-		obstacle_pivot.add_child(new_obstacle)
+		#var new_obstacle = resource_preloader.get_resource("spike").instantiate()
+		#new_obstacle.global_position = obstacle_pos
+		#obstacle_pivot.add_child(new_obstacle)
 
 # 隨機生成一數字，若其小於10生成草地，反之隨機小石地
 func get_land_tile_by_weight():

@@ -11,4 +11,5 @@ func enter() -> void:
 	anisprite.play("kick")
 	
 func _on_anisprite_animation_finished(animation : StringName):
-	can_transition = true
+	if animation == "kick":
+		can_transition = true
