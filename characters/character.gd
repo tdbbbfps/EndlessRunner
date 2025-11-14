@@ -14,3 +14,10 @@ class_name Character
 @export var fsm : FSM
 signal _on_character_hurt
 signal _on_character_died
+
+func _ready() -> void:
+	_on_character_hurt.connect(fsm.change_state.bind("hurt"))
+	_on_character_died.connect(fsm.change_state.bind("die"))
+
+func take_damage(dmg : int):
+	hp -= dmg

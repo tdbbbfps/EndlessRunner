@@ -4,9 +4,9 @@ class_name Player
 var start_moving : bool = false
 var can_jump : bool = false
 @export var coyote_timer : Timer
-var vec2 = Vector2i(100, 200)
-var vec1 = Vector2i(0, 0)
+
 func _ready() -> void:
+	super()
 	start_moving = true
 
 func _physics_process(delta: float) -> void:
@@ -17,6 +17,8 @@ func _physics_process(delta: float) -> void:
 		# Jump
 		if Input.is_action_just_pressed("Jump") and can_jump:
 			fsm.change_state("jump")
+		if Input.is_action_just_released("Jump") and velocity.y < 0:
+			velocity.y *= 0.5
 		# Start sneaking.
 		if Input.is_action_pressed("Sneak") and fsm.current_state != PlayerSneak:
 			fsm.change_state("sneak")

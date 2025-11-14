@@ -9,7 +9,6 @@ var end_pos : Vector2i = chunk_size # 生成區塊的終點
 var generate_next_chunk_pos = 0 # 玩家到達此x座標時生成下一個區塊(當前區塊中點)
 var delete_previous_chunk_pos = 0 # 玩家到達此x座標時刪除上個區塊(下個區塊中點)
 var chunks : Array = [] # 存放區塊中每個tile的位置
-var obstacles : Array = [] # 存放區塊中每個障礙物的位置
 var land_coords : Array = [Vector2i(1, 0), Vector2i(7, 0)] # Grass, 
 var grass_deco_coords : int = 4: # grass deco tile from (4,2) to (6,2)
 	set(value):
@@ -50,30 +49,28 @@ func generate_meadow_chunk():
 				ground_layer.set_cell(tile_pos, 0, get_dirt_tile_by_weight())
 			# 在第二層生成草地同時生成草裝飾或大石、小石(用權重生成)
 			elif y + 1 == end_pos.y -1:
-				# 生成單格草地、石地或四格大石
-				if randi_range(0, 20) < 20:
-					var tile = get_land_tile_by_weight()
-					ground_layer.set_cell(tile_pos, 0, tile)
-					# 如果生成的是草地則額外生成草裝飾
-					if tile == land_coords[0]:
-						ground_layer.set_cell(tile_pos + Vector2i.UP, 0, Vector2i(grass_deco_coords, 2))
-						grass_deco_coords += 1
-				else:
-					ground_layer.set_cell(tile_pos + Vector2i.LEFT, 0, Vector2i(5, 0))
-					ground_layer.set_cell(tile_pos, 0, Vector2i(6, 0))
-					ground_layer.set_cell(tile_pos + Vector2i.LEFT + Vector2i.DOWN, 0, Vector2i(5, 1))
-					ground_layer.set_cell(tile_pos + Vector2i.DOWN, 0, Vector2i(6, 1))
+				# 生成單格草地、石地
+				var tile = get_land_tile_by_weight()
+				ground_layer.set_cell(tile_pos, 0, tile)
+				# 如果生成的是草地則額外生成草裝飾
+				if tile == land_coords[0]:
+					ground_layer.set_cell(tile_pos + Vector2i.UP, 0, Vector2i(grass_deco_coords, 2))
+					grass_deco_coords += 1
 	generate_obstacle()
 	chunks.append(chunk)
 	start_pos.x += chunk_size.x
 	end_pos.x += chunk_size.x
+	
+@export var resource_preloader : ResourcePreloader
+@export var obstacle_pivot : Node
 
 func generate_obstacle():
-	var obstacle : Array
-	var y = -(chunk_size.y)
-	for x in range(start_pos.x, end_pos.x, chunk_size.x / 4):
-		var obstacle_pos : Vector2i = Vector2i(x, y)
-		%Obstacle.set_cell(obstacle_pos, 0, Vector2i(12, 4))
+	var y = -(chunk_size.y - 1)
+	for x in range(start_pos.x + chunk_size.x / 4, end_pos.x, chunk_size.x / 4):
+		var obstacle_pos : Vector2i = ground_layer.map_to_local(Vector2i(x, y))
+		var new_obstacle = resource_preloader.get_resource("spike").instantiate()
+		new_obstacle.global_position = obstacle_pos
+		obstacle_pivot.add_child(new_obstacle)
 
 # 隨機生成一數字，若其小於10生成草地，反之隨機小石地
 func get_land_tile_by_weight():
