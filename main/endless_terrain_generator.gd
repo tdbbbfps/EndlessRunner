@@ -1,7 +1,6 @@
 extends Node2D
 # 檢測玩家位置，當玩家到達當前區塊中點，生成下個區塊；當玩家到達下個區塊中點，刪除前一區塊
 @export var ground_layer : TileMapLayer
-@export var background_layer : TileMapLayer
 @export var actor : Character
 @export var chunk_size : Vector2i = Vector2i(80, 6)
 @export var tile_size : int = 8
@@ -11,7 +10,7 @@ var generate_next_chunk_pos = 0 # 玩家到達此x座標時生成下一個區塊
 var delete_previous_chunk_pos = 0 # 玩家到達此x座標時刪除上個區塊(下個區塊中點)
 var chunks : Array = [] # 存放區塊中每個tile的位置
 var obstacles : Array = [] # 存放區塊中每個障礙物的位置
-var tile_coords : Dictionary = {"grass_land": Vector2i(1, 0), "dirt": Vector2i(1, 1)}
+var land_coords : Array = [Vector2i(1, 0), Vector2i(7, 0)] # Grass, 
 var grass_deco_coords : int = 4: # grass deco tile from (4,2) to (6,2)
 	set(value):
 		if value <= 6:
@@ -19,7 +18,6 @@ var grass_deco_coords : int = 4: # grass deco tile from (4,2) to (6,2)
 		else:
 			grass_deco_coords = 4
 var dirt_coords : Array = [Vector2i(1, 1), Vector2i(9, 0), Vector2i(8, 1), Vector2i(9, 1)]
-
 
 func _ready() -> void:
 	# 初始化生成下個區塊的檢查位置(當前區塊中點)
@@ -48,13 +46,23 @@ func generate_meadow_chunk():
 			var tile_pos : Vector2i = Vector2i(x, -(y + 1))
 			chunk.append(tile_pos)
 			# 在底層生成泥土
-			if (y + 1 < end_pos.y - 1):
-				ground_layer.set_cell(tile_pos, 0, weighted_dirt_picker())
+			if y + 1 < end_pos.y - 1:
+				ground_layer.set_cell(tile_pos, 0, get_dirt_tile_by_weight())
 			# 在第二層生成草地同時生成草裝飾或大石、小石(用權重生成)
-			elif (y + 1 == end_pos.y -1):
-				ground_layer.set_cell(tile_pos, 0, tile_coords["grass_land"])
-				ground_layer.set_cell(tile_pos + Vector2i.UP, 0, Vector2i(grass_deco_coords, 2))
-				grass_deco_coords += 1
+			elif y + 1 == end_pos.y -1:
+				# 生成單格草地、石地或四格大石
+				if randi_range(0, 20) < 20:
+					var tile = get_land_tile_by_weight()
+					ground_layer.set_cell(tile_pos, 0, tile)
+					# 如果生成的是草地則額外生成草裝飾
+					if tile == land_coords[0]:
+						ground_layer.set_cell(tile_pos + Vector2i.UP, 0, Vector2i(grass_deco_coords, 2))
+						grass_deco_coords += 1
+				else:
+					ground_layer.set_cell(tile_pos + Vector2i.LEFT, 0, Vector2i(5, 0))
+					ground_layer.set_cell(tile_pos, 0, Vector2i(6, 0))
+					ground_layer.set_cell(tile_pos + Vector2i.LEFT + Vector2i.DOWN, 0, Vector2i(5, 1))
+					ground_layer.set_cell(tile_pos + Vector2i.DOWN, 0, Vector2i(6, 1))
 	generate_obstacle()
 	chunks.append(chunk)
 	start_pos.x += chunk_size.x
@@ -67,11 +75,13 @@ func generate_obstacle():
 		var obstacle_pos : Vector2i = Vector2i(x, y)
 		%Obstacle.set_cell(obstacle_pos, 0, Vector2i(12, 4))
 
-func weighted_dirt_picker():
-	if randi_range(0, 10) < 10:
-		return dirt_coords[0]
-	else:
-		return dirt_coords[randf_range(1, dirt_coords.size() - 1)]
+# 隨機生成一數字，若其小於10生成草地，反之隨機小石地
+func get_land_tile_by_weight():
+	return land_coords[0] if randi_range(0, 10) < 10 else land_coords[1]
+
+# 隨機生成一數字，若其小於10生成一般泥土，反之隨機生成任一有裝飾的泥土
+func get_dirt_tile_by_weight():
+	return dirt_coords[0] if randi_range(0, 10) < 10 else dirt_coords[randf_range(1, dirt_coords.size() - 1)]
 
 func delete_previous_chunk():
 	for tile_pos in chunks[0]:
