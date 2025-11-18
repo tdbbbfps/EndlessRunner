@@ -71,9 +71,9 @@ func generate_obstacle():
 	var y = -(chunk_size.y - 1)
 	for x in range(start_pos.x + chunk_size.x / 4, end_pos.x, chunk_size.x / 4):
 		var obstacle_pos : Vector2i = ground_layer.map_to_local(Vector2i(x, y))
-		#var new_obstacle = resource_preloader.get_resource("spike").instantiate()
-		#new_obstacle.global_position = obstacle_pos
-		#obstacle_pivot.add_child(new_obstacle)
+		var new_obstacle = resource_preloader.get_resource(obstacle_list.pick_random()).instantiate()
+		new_obstacle.global_position = obstacle_pos
+		obstacle_pivot.add_child(new_obstacle)
 
 # 隨機生成一數字，若其小於10生成草地，反之隨機小石地
 func get_land_tile_by_weight():

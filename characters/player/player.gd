@@ -1,7 +1,7 @@
 extends Character
 class_name Player
 
-var start_moving : bool = false
+var start_moving : bool = false  
 var can_jump : bool = false
 @export var coyote_timer : Timer
 
@@ -16,7 +16,7 @@ func _physics_process(delta: float) -> void:
 			fsm.change_state("move")
 		# Jump
 		if Input.is_action_just_pressed("Jump") and can_jump:
-			fsm.change_state("jump")
+			fsm.change_state("jump", true)
 		if Input.is_action_just_released("Jump") and velocity.y < 0:
 			velocity.y *= 0.5
 		# Start sneaking.

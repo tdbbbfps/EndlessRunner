@@ -1,0 +1,106 @@
+[gd_scene load_steps=11 format=3 uid="uid://b5ysr3vb25a1i"]
+
+[ext_resource type="Script" uid="uid://cdicydtwkmdvq" path="res://obstacles/breakable_pile.gd" id="1_7syku"]
+[ext_resource type="Shader" uid="uid://dajuyw01rfieq" path="res://obstacles/breakable_pile.gdshader" id="2_kydvn"]
+[ext_resource type="Texture2D" uid="uid://cgtysgheujgxj" path="res://assets/images/rock_pile.png" id="3_kydvn"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_kydvn"]
+frequency = 0.016
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_uwi5x"]
+noise = SubResource("FastNoiseLite_kydvn")
+seamless = true
+seamless_blend_skirt = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uwi5x"]
+resource_local_to_scene = true
+shader = ExtResource("2_kydvn")
+shader_parameter/time_factor = 0.0
+shader_parameter/progress = 0.0
+shader_parameter/oneshot = true
+shader_parameter/init_size = 0.150000007125
+shader_parameter/init_interval = 0.2
+shader_parameter/init_offset = 0.1
+shader_parameter/init_num = 5.0
+shader_parameter/init_direction = Vector2(0, 0)
+shader_parameter/rnd_direction_factor = Vector2(1, 1)
+shader_parameter/rnd_size_factor = Vector2(1, 1)
+shader_parameter/rnd_rotate_factor = 0.0
+shader_parameter/rnd_rotate_offset = 0.0
+shader_parameter/angle_velocity_min = 0.10000015050212065
+shader_parameter/angle_velocity_max = 1.7000001743440407
+shader_parameter/expand_factor = Vector2(1, 1)
+shader_parameter/expand_offset = Vector2(0, 0)
+shader_parameter/bounce_thresh = 0.50000002375
+shader_parameter/bounce_factor = 0.800000038
+shader_parameter/noise = SubResource("NoiseTexture2D_uwi5x")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_75dd7"]
+size = Vector2(10, 22)
+
+[sub_resource type="Animation" id="Animation_uwi5x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_kydvn"]
+resource_name = "break"
+length = 0.75
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 10.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v7kei"]
+_data = {
+&"RESET": SubResource("Animation_uwi5x"),
+&"break": SubResource("Animation_kydvn")
+}
+
+[node name="BreakablePile" type="StaticBody2D" node_paths=PackedStringArray("collision", "aniplayer")]
+collision_layer = 2
+collision_mask = 8
+script = ExtResource("1_7syku")
+collision = NodePath("CollisionShape2D")
+aniplayer = NodePath("AnimationPlayer")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_uwi5x")
+position = Vector2(0, -16)
+texture = ExtResource("3_kydvn")
+region_rect = Rect2(96, 0, 16, 24)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -11)
+shape = SubResource("RectangleShape2D_75dd7")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, -10)
+rect = Rect2(-5, -12, 10, 22)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_v7kei")
+}
+
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

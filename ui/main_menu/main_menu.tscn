@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://bx7y7bsnsmqtd"]
+
+[ext_resource type="Script" uid="uid://c36nkn3p688d3" path="res://ui/main_menu/main_menu.gd" id="1_uhj5c"]
+
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("start_button", "restart_button", "option_button", "exit_button")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uhj5c")
+start_button = NodePath("VBoxContainer/StartButton")
+restart_button = NodePath("VBoxContainer/RestartButton")
+option_button = NodePath("VBoxContainer/OptionButton")
+exit_button = NodePath("VBoxContainer/ExitButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="StartButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="RestartButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="OptionButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ExitButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2

@@ -15,6 +15,7 @@ func jump() -> void:
 	actor.velocity.y = actor.jump_velocity
 
 func _physics_process(delta: float) -> void:
+	actor.velocity.x = actor.speed
 	if actor.velocity.y > 0 and not can_transition:
 		can_transition = true
 		fsm.change_state("fall")

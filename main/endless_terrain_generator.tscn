@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://wjexfdjp7o70"]
+[gd_scene load_steps=7 format=3 uid="uid://wjexfdjp7o70"]
 
 [ext_resource type="Texture2D" uid="uid://ddscst2bxernn" path="res://assets/images/kinda_cute_forest/tileset.png" id="1_0oas7"]
 [ext_resource type="Script" uid="uid://ttubkd1ogqak" path="res://main/endless_terrain_generator.gd" id="1_t1b4m"]
 [ext_resource type="PackedScene" uid="uid://dkcocdnw0gxtc" path="res://obstacles/spike.tscn" id="3_ag0fx"]
+[ext_resource type="PackedScene" uid="uid://b5ysr3vb25a1i" path="res://obstacles/breakable_pile.tscn" id="3_ow2fi"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bjk31"]
 texture = ExtResource("1_0oas7")
@@ -105,6 +106,6 @@ obstacle_pivot = NodePath("ObstaclePivot")
 tile_set = SubResource("TileSet_a63wp")
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
-resources = [PackedStringArray("spike"), [ExtResource("3_ag0fx")]]
+resources = [PackedStringArray("breakable_pile", "spike"), [ExtResource("3_ow2fi"), ExtResource("3_ag0fx")]]
 
 [node name="ObstaclePivot" type="Node" parent="."]
