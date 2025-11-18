@@ -1,4 +1,4 @@
-extends Control
+extends CanvasLayer
 class_name MainMenu
 
 enum STATES {
@@ -15,8 +15,53 @@ enum STATES {
 @export var restart_button : TextureButton
 @export var option_button : TextureButton
 @export var exit_button : TextureButton
-		
+signal _on_game_started
+signal _on_game_paused
+signal _on_game_restarted
+signal _on_game_exited
+
+func _ready() -> void:
+	pass
+
 func change_button_visibility():
-	if current_state == STATES.MAIN:
+	match current_state:
+		STATES.MAIN:
+			start_button.show()
+			restart_button.hide()
+			option_button.show()
+			exit_button.show()
+		STATES.INGAME:
+			start_button.hide()
+			restart_button.hide()
+			option_button.hide()
+			exit_button.hide()
+		STATES.PAUSED:
+			start_button.hide()
+			restart_button.show()
+			option_button.show()
+			exit_button.show()
+		STATES.DIED:
+			start_button.hide()
+			restart_button.show()
+			option_button.show()
+			exit_button.show()
+
+
+func _on_start_button_pressed() -> void:
+	_on_game_started.emit()
+
+
+func _on_restart_button_pressed() -> void:
+	_on_game_restarted.emit()
+
+
+func _on_option_button_pressed() -> void:
+	pass
+
+
+func _on_exit_button_pressed() -> void:
+	_on_game_exited.emit()
+	
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("Pause") and current_state != STATES.INGAME:
 		pass
-		

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://75jimij7hl2k"]
+[gd_scene load_steps=11 format=4 uid="uid://75jimij7hl2k"]
 
 [ext_resource type="Script" uid="uid://c5j1ac0ckkb0i" path="res://main/main.gd" id="1_4dugh"]
 [ext_resource type="Texture2D" uid="uid://ddscst2bxernn" path="res://assets/images/kinda_cute_forest/tileset.png" id="1_kfbq2"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://d32wphre3geni" path="res://assets/images/kinda_cute_forest/background.png" id="3_xwkvk"]
 [ext_resource type="PackedScene" uid="uid://cuxlk1t8niadj" path="res://main/game_camera.tscn" id="4_3wy1v"]
 [ext_resource type="Script" uid="uid://cplp87h3v5ooe" path="res://main/game_camera.gd" id="5_kfbq2"]
+[ext_resource type="PackedScene" uid="uid://bx7y7bsnsmqtd" path="res://ui/main_menu/main_menu.tscn" id="8_67ri8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4dugh"]
 texture = ExtResource("1_kfbq2")
@@ -126,3 +127,5 @@ position = Vector2(8, -40)
 limit_enabled = false
 script = ExtResource("5_kfbq2")
 actor = NodePath("../Player")
+
+[node name="MainMenu" parent="." instance=ExtResource("8_67ri8")]
