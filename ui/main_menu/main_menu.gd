@@ -7,7 +7,8 @@ enum STATES {
 	PAUSED,
 	DIED
 }
-@export var current_state = STATES.MAIN:
+@export var initial_state : STATES = STATES.MAIN
+@export var current_state : STATES:
 	set(value):
 		current_state = value
 		change_button_visibility()
@@ -15,13 +16,14 @@ enum STATES {
 @export var restart_button : TextureButton
 @export var option_button : TextureButton
 @export var exit_button : TextureButton
+@export var pause_button : TextureButton
 signal _on_game_started
 signal _on_game_paused
 signal _on_game_restarted
 signal _on_game_exited
 
 func _ready() -> void:
-	pass
+	current_state = initial_state
 
 func change_button_visibility():
 	match current_state:
@@ -30,21 +32,25 @@ func change_button_visibility():
 			restart_button.hide()
 			option_button.show()
 			exit_button.show()
+			pause_button.hide()
 		STATES.INGAME:
 			start_button.hide()
 			restart_button.hide()
 			option_button.hide()
 			exit_button.hide()
+			pause_button.show()
 		STATES.PAUSED:
 			start_button.hide()
 			restart_button.show()
 			option_button.show()
 			exit_button.show()
+			pause_button.show()
 		STATES.DIED:
 			start_button.hide()
 			restart_button.show()
 			option_button.show()
 			exit_button.show()
+			pause_button.hide()
 
 
 func _on_start_button_pressed() -> void:

@@ -1,13 +1,36 @@
-[gd_scene load_steps=2 format=3 uid="uid://bx7y7bsnsmqtd"]
+[gd_scene load_steps=19 format=3 uid="uid://bx7y7bsnsmqtd"]
 
 [ext_resource type="Script" uid="uid://c36nkn3p688d3" path="res://ui/main_menu/main_menu.gd" id="1_uhj5c"]
+[ext_resource type="FontFile" uid="uid://38tdhg73d5xf" path="res://assets/fonts/Cubic_11.ttf" id="2_bpbph"]
+[ext_resource type="Texture2D" uid="uid://dg6cmpy7qirhy" path="res://assets/images/ui/pause_btn1.png" id="2_i5wg5"]
+[ext_resource type="Texture2D" uid="uid://b1xsg52i6offw" path="res://assets/images/ui/start_btn1.png" id="2_u184e"]
+[ext_resource type="Texture2D" uid="uid://cxddyd726mt3s" path="res://assets/images/ui/pause_btn3.png" id="3_3c04x"]
+[ext_resource type="Texture2D" uid="uid://3qu3kqexdsb8" path="res://assets/images/ui/start_btn3.png" id="3_6mijq"]
+[ext_resource type="Texture2D" uid="uid://ryh006t13iol" path="res://assets/images/ui/pause_btn2.png" id="4_joh67"]
+[ext_resource type="Texture2D" uid="uid://dfewf8crslexi" path="res://assets/images/ui/start_btn2.png" id="4_w2r0d"]
+[ext_resource type="Texture2D" uid="uid://q6j1jj6u842g" path="res://assets/images/ui/restart_btn1.png" id="5_4e78x"]
+[ext_resource type="Texture2D" uid="uid://bw5ulpivdcn53" path="res://assets/images/ui/restart_btn3.png" id="6_s4pem"]
+[ext_resource type="Texture2D" uid="uid://fb0dysdughbn" path="res://assets/images/ui/restart_btn2.png" id="7_xio0d"]
+[ext_resource type="Texture2D" uid="uid://dcqe0yucppgyj" path="res://assets/images/ui/option_btn1.png" id="8_tf5ef"]
+[ext_resource type="Texture2D" uid="uid://5ktfbeg2k3c6" path="res://assets/images/ui/option_btn3.png" id="9_qao3l"]
+[ext_resource type="Texture2D" uid="uid://detya4x5eao5a" path="res://assets/images/ui/option_btn2.png" id="10_lknku"]
+[ext_resource type="Texture2D" uid="uid://cf4etirrtnpw2" path="res://assets/images/ui/exit_btn1.png" id="11_u2jyo"]
+[ext_resource type="Texture2D" uid="uid://hsniouehtt6p" path="res://assets/images/ui/exit_btn3.png" id="12_bpbph"]
+[ext_resource type="Texture2D" uid="uid://bgy3q31cd1bsr" path="res://assets/images/ui/exit_btn2.png" id="13_qewnw"]
 
-[node name="MainMenu" type="CanvasLayer" node_paths=PackedStringArray("start_button", "restart_button", "option_button", "exit_button")]
+[sub_resource type="LabelSettings" id="LabelSettings_qewnw"]
+font = ExtResource("2_bpbph")
+font_size = 24
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="MainMenu" type="CanvasLayer" node_paths=PackedStringArray("start_button", "restart_button", "option_button", "exit_button", "pause_button")]
 script = ExtResource("1_uhj5c")
-start_button = NodePath("VBoxContainer/StartButton")
-restart_button = NodePath("VBoxContainer/RestartButton")
-option_button = NodePath("VBoxContainer/OptionButton")
-exit_button = NodePath("VBoxContainer/ExitButton")
+start_button = NodePath("VBoxContainer/HBoxContainer/StartButton")
+restart_button = NodePath("VBoxContainer/HBoxContainer/RestartButton")
+option_button = NodePath("VBoxContainer/HBoxContainer/OptionButton")
+exit_button = NodePath("VBoxContainer/HBoxContainer/ExitButton")
+pause_button = NodePath("PauseButton")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchors_preset = 8
@@ -15,34 +38,68 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -38.0
+offset_top = -21.5
+offset_right = 38.0
+offset_bottom = 21.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="StartButton" type="TextureButton" parent="VBoxContainer"]
+[node name="Title" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+text = "Chrome Dino Copy"
+label_settings = SubResource("LabelSettings_qewnw")
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="RestartButton" type="TextureButton" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="OptionButton" type="TextureButton" parent="VBoxContainer"]
+[node name="StartButton" type="TextureButton" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
+texture_normal = ExtResource("2_u184e")
+texture_pressed = ExtResource("3_6mijq")
+texture_hover = ExtResource("4_w2r0d")
+stretch_mode = 5
 
-[node name="ExitButton" type="TextureButton" parent="VBoxContainer"]
+[node name="RestartButton" type="TextureButton" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
+texture_normal = ExtResource("5_4e78x")
+texture_pressed = ExtResource("6_s4pem")
+texture_hover = ExtResource("7_xio0d")
+stretch_mode = 5
 
-[node name="TextureButton" type="TextureButton" parent="."]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 40.0
-grow_horizontal = 0
+[node name="OptionButton" type="TextureButton" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("8_tf5ef")
+texture_pressed = ExtResource("9_qao3l")
+texture_hover = ExtResource("10_lknku")
+stretch_mode = 5
 
-[connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/OptionButton" to="." method="_on_option_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
+[node name="ExitButton" type="TextureButton" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("11_u2jyo")
+texture_pressed = ExtResource("12_bpbph")
+texture_hover = ExtResource("13_qewnw")
+stretch_mode = 5
+
+[node name="PauseButton" type="TextureButton" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -12.0
+offset_right = 12.0
+offset_bottom = 16.0
+grow_horizontal = 2
+texture_normal = ExtResource("2_i5wg5")
+texture_pressed = ExtResource("3_3c04x")
+texture_hover = ExtResource("4_joh67")
+stretch_mode = 5
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/OptionButton" to="." method="_on_option_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
