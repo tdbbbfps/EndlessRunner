@@ -100,12 +100,11 @@ tile_size = Vector2i(8, 8)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_4dugh")
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" node_paths=PackedStringArray("actor", "main_menu", "endless_terrain_generator")]
 script = ExtResource("1_4dugh")
-
-[node name="Ground" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAD///v/AAABAAAAAAD+//v/AAABAAAAAAD9//v/AAABAAAAAAD8//v/AAABAAAAAAD7//v/AAABAAAAAAD6//v/AAABAAAAAAD5//v/AAABAAAAAAD4//v/AAABAAAAAAD3//v/AAABAAAAAAD2//v/AAABAAAAAAD///z/AAABAAEAAAD///3/AAABAAEAAAD///7/AAABAAEAAAD/////AAABAAEAAAD+////AAABAAEAAAD9////AAABAAEAAAD8////AAABAAEAAAD7////AAABAAEAAAD6////AAABAAEAAAD5////AAABAAEAAAD4////AAABAAEAAAD3////AAABAAEAAAD3//7/AAABAAEAAAD2//7/AAABAAEAAAD2////AAABAAEAAAD2//z/AAABAAEAAAD2//3/AAABAAEAAAD3//3/AAABAAEAAAD4//3/AAABAAEAAAD5//3/AAABAAEAAAD6//3/AAABAAEAAAD7//3/AAABAAEAAAD8//3/AAABAAEAAAD9//3/AAABAAEAAAD+//3/AAABAAEAAAD+//7/AAABAAEAAAD9//7/AAABAAEAAAD8//7/AAABAAEAAAD7//7/AAABAAEAAAD6//7/AAABAAEAAAD5//7/AAABAAEAAAD4//7/AAABAAEAAAD3//z/AAABAAEAAAD4//z/AAABAAEAAAD5//z/AAABAAEAAAD6//z/AAABAAEAAAD7//z/AAABAAEAAAD8//z/AAABAAEAAAD9//z/AAABAAEAAAD+//z/AAABAAEAAAA=")
-tile_set = SubResource("TileSet_67ri8")
+actor = NodePath("Player")
+main_menu = NodePath("MainMenu")
+endless_terrain_generator = NodePath("EndlessTerrainGenerator")
 
 [node name="Parallax2D" type="Parallax2D" parent="."]
 repeat_size = Vector2(256, 0)
@@ -116,15 +115,18 @@ ignore_camera_scroll = true
 position = Vector2(128, -72)
 texture = ExtResource("3_xwkvk")
 
+[node name="Ground" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD///v/AAABAAAAAAD+//v/AAABAAAAAAD///z/AAABAAEAAAD+//z/AAABAAEAAAD+//3/AAABAAEAAAD+//7/AAABAAEAAAD+////AAABAAEAAAD/////AAABAAEAAAD///7/AAABAAEAAAD///3/AAABAAEAAAA=")
+tile_set = SubResource("TileSet_67ri8")
+
 [node name="EndlessTerrainGenerator" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("2_xwkvk")]
 actor = NodePath("../Player")
 
 [node name="Player" parent="." instance=ExtResource("2_pjrb6")]
-position = Vector2(8, -40)
+position = Vector2(-8, -40)
 
 [node name="GameCamera" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("4_3wy1v")]
 position = Vector2(8, -40)
-limit_enabled = false
 script = ExtResource("5_kfbq2")
 actor = NodePath("../Player")
 

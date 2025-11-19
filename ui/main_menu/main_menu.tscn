@@ -24,8 +24,9 @@ font_size = 24
 outline_size = 4
 outline_color = Color(0, 0, 0, 1)
 
-[node name="MainMenu" type="CanvasLayer" node_paths=PackedStringArray("start_button", "restart_button", "option_button", "exit_button", "pause_button")]
+[node name="MainMenu" type="CanvasLayer" node_paths=PackedStringArray("title", "start_button", "restart_button", "option_button", "exit_button", "pause_button")]
 script = ExtResource("1_uhj5c")
+title = NodePath("VBoxContainer/Title")
 start_button = NodePath("VBoxContainer/HBoxContainer/StartButton")
 restart_button = NodePath("VBoxContainer/HBoxContainer/RestartButton")
 option_button = NodePath("VBoxContainer/HBoxContainer/OptionButton")
@@ -103,3 +104,4 @@ stretch_mode = 5
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/OptionButton" to="." method="_on_option_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="PauseButton" to="." method="_on_pause_button_pressed"]

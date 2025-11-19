@@ -11,6 +11,6 @@ func enter() -> void:
 	actor.velocity.y = actor.jump_velocity
 	actor.set_collision_mask_value(1, false)
 
-func _physics_process(delta: float) -> void:
-	if actor.global_position.y > 0:
-		pass
+func exit() -> void:
+	super()
+	actor.set_collision_mask_value(1, true)

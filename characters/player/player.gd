@@ -1,13 +1,13 @@
 extends Character
 class_name Player
 
+var start_pos : Vector2i
 var start_moving : bool = false  
 var can_jump : bool = false
 @export var coyote_timer : Timer
 
 func _ready() -> void:
 	super()
-	start_moving = true
 
 func _physics_process(delta: float) -> void:
 	if start_moving:
@@ -43,3 +43,10 @@ func _on_coyote_timer_timeout() -> void:
 
 func apply_gravity(delta : float) -> void:
 	velocity.y += get_gravity().y * delta
+
+# Reset player's stats	
+func reset():
+	global_position = start_pos
+	velocity = Vector2.ZERO
+	hp = max_hp
+	fsm.change_state("idle", true)

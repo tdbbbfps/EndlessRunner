@@ -7,8 +7,10 @@ class_name Character
 		hp = clamp(value, 0, max_hp)
 		if hp > 0:
 			_on_character_hurt.emit()
-		else:
+		elif hp == 0:
 			_on_character_died.emit()
+		
+		
 @export var speed : float = 100.0
 @export var jump_velocity : float = -250.0
 @export var fsm : FSM

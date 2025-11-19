@@ -1,10 +1,11 @@
 extends Node2D
+class_name EndlessTerrainGenerator
 # 檢測玩家位置，當玩家到達當前區塊中點，生成下個區塊；當玩家到達下個區塊中點，刪除前一區塊
 @export var ground_layer : TileMapLayer
 @export var actor : Character
 @export var chunk_size : Vector2i = Vector2i(80, 6)
 @export var tile_size : int = 8
-var start_pos : Vector2i = Vector2i.ZERO # 生成區塊的起始點
+@export var start_pos : Vector2i = Vector2i.ZERO # 生成區塊的起始點
 var end_pos : Vector2i = chunk_size # 生成區塊的終點
 var generate_next_chunk_pos = 0 # 玩家到達此x座標時生成下一個區塊(當前區塊中點)
 var delete_previous_chunk_pos = 0 # 玩家到達此x座標時刪除上個區塊(下個區塊中點)
@@ -87,3 +88,14 @@ func delete_previous_chunk():
 	for tile_pos in chunks[0]:
 		ground_layer.set_cell(tile_pos, -1, Vector2i(-1, -1))
 	chunks.erase(chunks[0])
+
+## Clear all tiles and obstacles.
+func clear():
+	for chunk in chunks:
+		for tile_pos in chunk:
+			ground_layer.set_cell(tile_pos, -1, Vector2i(-1, -1))
+	chunks.clear()
+	for obstacle in obstacle_pivot.get_children():
+		obstacle.queue_free()
+	start_pos = Vector2i.ZERO
+	generate_meadow_chunk()
