@@ -64,9 +64,6 @@ func _on_restart_button_pressed() -> void:
 	_on_game_restarted.emit()
 	current_state = STATES.INGAME
 
-func _on_option_button_pressed() -> void:
-	pass
-
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()
 	
@@ -76,13 +73,18 @@ func _input(event: InputEvent) -> void:
 
 # Change pause button's icon and change pause state.
 func _on_pause_button_pressed() -> void:
-	current_state = STATES.PAUSED	
-	get_tree().pasued = !get_tree().paused
+	get_tree().paused = !(get_tree().paused)
 	if get_tree().paused:
+		current_state = STATES.PAUSED
 		pause_button.texture_normal = load("res://assets/images/ui/start_btn1.png")
 		pause_button.texture_hover = load("res://assets/images/ui/start_btn2.png")
 		pause_button.texture_pressed = load("res://assets/images/ui/start_btn3.png")
 	else:
+		current_state = STATES.INGAME
 		pause_button.texture_normal = load("res://assets/images/ui/pause_btn1.png")
 		pause_button.texture_hover = load("res://assets/images/ui/pause_btn2.png")
 		pause_button.texture_pressed = load("res://assets/images/ui/pause_btn3.png")
+
+
+func _on_option_button_pressed() -> void:
+	pass # Replace with function body.

@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://mawdxu5vbpbo"]
+
+[ext_resource type="Script" uid="uid://b6beuetgrnjd7" path="res://ui/score_ui/score_ui.gd" id="1_btstv"]
+[ext_resource type="FontFile" uid="uid://38tdhg73d5xf" path="res://assets/fonts/Cubic_11.ttf" id="1_wrnqc"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_btstv"]
+font = ExtResource("1_wrnqc")
+font_size = 12
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)
+
+[node name="ScoreUI" type="CanvasLayer" node_paths=PackedStringArray("highest_score", "current_score")]
+script = ExtResource("1_btstv")
+highest_score = NodePath("HBoxContainer/HighestScore")
+current_score = NodePath("HBoxContainer/CurrentScore")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -98.0
+offset_bottom = 16.0
+grow_horizontal = 0
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "HI"
+label_settings = SubResource("LabelSettings_btstv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HighestScore" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "00000"
+label_settings = SubResource("LabelSettings_btstv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CurrentScore" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "00000"
+label_settings = SubResource("LabelSettings_btstv")
+horizontal_alignment = 1
+vertical_alignment = 1
