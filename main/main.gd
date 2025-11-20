@@ -41,4 +41,8 @@ func restart_game():
 	
 func _physics_process(delta: float) -> void:
 	if is_game_started:
-		pass
+		var current_x : float = 0
+		if actor.global_position.x > current_x:
+			current_x = actor.global_position.x
+			current_score += 1
+			

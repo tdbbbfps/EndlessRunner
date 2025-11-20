@@ -24,12 +24,13 @@ font_size = 24
 outline_size = 4
 outline_color = Color(0, 0, 0, 1)
 
-[node name="MainMenu" type="CanvasLayer" node_paths=PackedStringArray("title", "start_button", "restart_button", "exit_button", "pause_button")]
+[node name="MainMenu" type="CanvasLayer" node_paths=PackedStringArray("title", "start_button", "restart_button", "option_button", "exit_button", "pause_button")]
 process_mode = 3
 script = ExtResource("1_uhj5c")
 title = NodePath("VBoxContainer/Title")
 start_button = NodePath("VBoxContainer/HBoxContainer/StartButton")
 restart_button = NodePath("VBoxContainer/HBoxContainer/RestartButton")
+option_button = NodePath("VBoxContainer/HBoxContainer/OptionButton")
 exit_button = NodePath("VBoxContainer/HBoxContainer/ExitButton")
 pause_button = NodePath("PauseButton")
 

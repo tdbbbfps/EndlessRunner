@@ -19,7 +19,6 @@ enum STATES {
 @export var exit_button : TextureButton
 @export var pause_button : TextureButton
 signal _on_game_started
-signal _on_game_paused
 signal _on_game_restarted
 
 func _ready() -> void:
