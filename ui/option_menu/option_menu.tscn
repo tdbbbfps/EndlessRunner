@@ -1,11 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://b73kwgjlf0nxs"]
+[gd_scene load_steps=4 format=3 uid="uid://b73kwgjlf0nxs"]
 
 [ext_resource type="Script" uid="uid://dqeuxo0dtxmsf" path="res://ui/option_menu/option_menu.gd" id="1_ag6lb"]
+[ext_resource type="Shader" uid="uid://3xpui1v5ljf6" path="res://shaders/blur.gdshader" id="2_ptdjs"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hc6e4"]
+shader = ExtResource("2_ptdjs")
+shader_parameter/lod = 1.0000000475
 
 [node name="OptionMenu" type="CanvasLayer"]
 script = ExtResource("1_ag6lb")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_hc6e4")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

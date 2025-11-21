@@ -9,8 +9,7 @@ class_name Character
 			_on_character_hurt.emit()
 		elif hp == 0:
 			_on_character_died.emit()
-		
-		
+
 @export var speed : float = 100.0
 @export var jump_velocity : float = -250.0
 @export var fsm : FSM

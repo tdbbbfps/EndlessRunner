@@ -124,8 +124,9 @@ tile_set = SubResource("TileSet_67ri8")
 [node name="EndlessTerrainGenerator" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("2_xwkvk")]
 actor = NodePath("../Player")
 
-[node name="Player" parent="." instance=ExtResource("2_pjrb6")]
+[node name="Player" parent="." node_paths=PackedStringArray("main") instance=ExtResource("2_pjrb6")]
 position = Vector2(-32, -42)
+main = NodePath("..")
 
 [node name="GameCamera" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("4_3wy1v")]
 position = Vector2(8, -40)

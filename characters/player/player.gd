@@ -1,16 +1,13 @@
 extends Character
 class_name Player
 
+@export var main : GameController
 var start_pos : Vector2i
-var start_moving : bool = false  
 var can_jump : bool = false
 @export var coyote_timer : Timer
 
-func _ready() -> void:
-	super()
-
 func _physics_process(delta: float) -> void:
-	if start_moving:
+	if main.is_game_started:
 		# Automatically change state to move when it is avalible.
 		if fsm.current_state != PlayerMove and fsm.current_state.can_transition:
 			fsm.change_state("move")
@@ -26,9 +23,9 @@ func _physics_process(delta: float) -> void:
 			fsm.change_state("kick")
 		if Input.is_action_just_pressed("FireBreath") and fsm.current_state != PlayerFireBreath:
 			fsm.change_state("firebreath")
-		move_and_slide()
-		handling_jump()
-		apply_gravity(delta)
+	move_and_slide()
+	handling_jump()
+	apply_gravity(delta)
 
 # Handling player jump and coyote jump.
 func handling_jump() -> void:
@@ -42,12 +39,12 @@ func _on_coyote_timer_timeout() -> void:
 		can_jump = false
 
 func apply_gravity(delta : float) -> void:
-	velocity.y += get_gravity().y * delta
+	if global_position.y < 16:
+		velocity.y += get_gravity().y * delta
 
 # Reset player's stats
-func reset():
+func reset() -> void:
 	global_position = start_pos
 	velocity = Vector2.ZERO
 	hp = max_hp
 	fsm.change_state("idle", true)
-	start_moving = true

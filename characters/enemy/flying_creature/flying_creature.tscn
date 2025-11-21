@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://cx0vcjh3ogqc"]
+
+[ext_resource type="Script" uid="uid://bg8fawffoc4jj" path="res://characters/enemy/flying_creature/flying_creature.gd" id="1_kmldd"]
+[ext_resource type="Script" uid="uid://c3vv7pc7ci0lu" path="res://characters/fsm.gd" id="2_kmldd"]
+[ext_resource type="Script" uid="uid://dc70vlripf0j8" path="res://characters/state.gd" id="3_c1ic8"]
+[ext_resource type="Script" uid="uid://c87gha3sse3m5" path="res://characters/enemy/flying_creature/fsm/move.gd" id="4_c1ic8"]
+
+[node name="FlyingCreature" type="CharacterBody2D" node_paths=PackedStringArray("fsm")]
+collision_layer = 4
+collision_mask = 29
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_kmldd")
+fsm = NodePath("FSM")
+metadata/_custom_type_script = "uid://b3q5rdy73eqe5"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="FSM" type="Node2D" parent="."]
+script = ExtResource("2_kmldd")
+metadata/_custom_type_script = "uid://c3vv7pc7ci0lu"
+
+[node name="Move" type="Node2D" parent="FSM"]
+script = ExtResource("4_c1ic8")
+metadata/_custom_type_script = "uid://dc70vlripf0j8"
+
+[node name="Die" type="Node2D" parent="FSM"]
+script = ExtResource("3_c1ic8")
+metadata/_custom_type_script = "uid://dc70vlripf0j8"
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

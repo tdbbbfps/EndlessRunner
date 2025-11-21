@@ -45,7 +45,7 @@ func _physics_process(delta: float) -> void:
 		delete_previous_chunk()
 
 # 生成五層地基(泥土、草、石頭)
-func generate_meadow_chunk():
+func generate_meadow_chunk() -> void:
 	var chunk : Array
 	for x in range(start_pos.x, end_pos.x):
 		for y in range(start_pos.y, end_pos.y - 1):
@@ -68,7 +68,7 @@ func generate_meadow_chunk():
 	start_pos.x += chunk_size.x
 	end_pos.x += chunk_size.x
 
-func generate_obstacle():
+func generate_obstacle() -> void:
 	var y = -(chunk_size.y - 1)
 	for x in range(start_pos.x + chunk_size.x / 4, end_pos.x, chunk_size.x / 4):
 		var obstacle_pos : Vector2i = ground_layer.map_to_local(Vector2i(x, y))
@@ -77,20 +77,20 @@ func generate_obstacle():
 		obstacle_pivot.add_child(new_obstacle)
 
 # 隨機生成一數字，若其小於10生成草地，反之隨機小石地
-func get_land_tile_by_weight():
+func get_land_tile_by_weight() -> Vector2i:
 	return land_coords[0] if randi_range(0, 10) < 10 else land_coords[1]
 
 # 隨機生成一數字，若其小於10生成一般泥土，反之隨機生成任一有裝飾的泥土
-func get_dirt_tile_by_weight():
+func get_dirt_tile_by_weight() -> Vector2i:
 	return dirt_coords[0] if randi_range(0, 10) < 10 else dirt_coords[randf_range(1, dirt_coords.size() - 1)]
 
-func delete_previous_chunk():
+func delete_previous_chunk() -> void:
 	for tile_pos in chunks[0]:
 		ground_layer.set_cell(tile_pos, -1, Vector2i(-1, -1))
 	chunks.erase(chunks[0])
 
 ## Clear all tiles and obstacles.
-func clear():
+func clear() -> void:
 	for chunk in chunks:
 		for tile_pos in chunk:
 			ground_layer.set_cell(tile_pos, -1, Vector2i(-1, -1))

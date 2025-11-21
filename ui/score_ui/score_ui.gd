@@ -4,8 +4,8 @@ class_name ScoreUI
 @export var highest_score : Label
 @export var current_score : Label
 
-func update_highest_score(score : int):
+func update_highest_score(score : int) -> void:
 	highest_score.text = "%05d" %score
 
-func update_current_score(score : int):
+func update_current_score(score : int) -> void:
 	current_score.text = "%05d" %score

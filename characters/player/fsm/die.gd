@@ -14,3 +14,8 @@ func enter() -> void:
 func exit() -> void:
 	super()
 	actor.set_collision_mask_value(1, true)
+
+func _physics_process(delta: float) -> void:
+	if actor.global_position.y > 16:
+		can_transition = true
+		actor.velocity = Vector2.ZERO

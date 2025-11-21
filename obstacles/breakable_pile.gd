@@ -5,7 +5,7 @@ var is_showed : bool = false # 控制障礙物是否能被銷毀
 @export var collision : CollisionShape2D
 @export var aniplayer : AnimationPlayer
 
-func destroy():
+func destroy() -> void:
 	collision.disabled = true
 	aniplayer.play("break")
 
